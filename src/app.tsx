@@ -3,7 +3,7 @@ import ModeToggle from "@/components/extends/mode-toggle";
 
 function App() {
   return (
-    <main className="bg-secondary">
+    <main className="bg-secondary font-display">
       <header className="flex justify-end p-4">
         <ModeToggle />
       </header>

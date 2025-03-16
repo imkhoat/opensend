@@ -5,7 +5,13 @@ import React from "react";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { Card, CardContent } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import {
@@ -13,11 +19,11 @@ import {
   FormControl,
   FormField,
   FormItem,
-  FormLabel,
   FormMessage,
 } from "@/components/ui/form";
 import { toast } from "sonner";
-import { Eye, EyeClosed, Mail } from "lucide-react";
+import { Eye, EyeClosed, Lock, Mail } from "lucide-react";
+import { useLoginMutation } from "@/store/api/auth-api";
 
 interface FormLoginProps {
   className?: string;
@@ -29,7 +35,6 @@ const FormLogin: React.FC<FormLoginProps> = ({ className }) => {
     password: z.string().min(8),
   });
 
-  // 1. Define your form.
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -38,18 +43,15 @@ const FormLogin: React.FC<FormLoginProps> = ({ className }) => {
     },
   });
 
-  // 2. Define a submit handler.
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    console.log(values);
-    toast("Event has been created", {
-      description: "Sunday, December 03, 2023 at 9:00 AM",
-      action: {
-        label: "Undo",
-        onClick: () => console.log("Undo"),
-      },
-    });
+  const [login, { isLoading, error }] = useLoginMutation();
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    const { email, password } = values;
+    const response = await login({ email, password });
+    if (response.error || error) {
+      toast("Invalid email or password");
+      return;
+    }
+    toast("Login success");
   }
 
   // Password visibility toggle
@@ -60,6 +62,10 @@ const FormLogin: React.FC<FormLoginProps> = ({ className }) => {
       className={`${className} shadow-none border-none`}
       data-testid="auth-components-form-login"
     >
+      <CardHeader className="text-center">
+        <CardTitle>Welcome back!</CardTitle>
+        <CardDescription>Login to continue with Opensend</CardDescription>
+      </CardHeader>
       <CardContent>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
@@ -68,10 +74,9 @@ const FormLogin: React.FC<FormLoginProps> = ({ className }) => {
               name="email"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Username</FormLabel>
                   <FormControl>
                     <Input
-                      placeholder="your@email.com"
+                      placeholder="Email"
                       type="email"
                       append={<Mail className="w-4 h-4" />}
                       {...field}
@@ -86,12 +91,12 @@ const FormLogin: React.FC<FormLoginProps> = ({ className }) => {
               name="password"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Password</FormLabel>
                   <FormControl>
                     <Input
-                      placeholder="********"
+                      placeholder="Password"
                       type={!passwordVisible ? "password" : "text"}
                       {...field}
+                      append={<Lock className="w-4 h-4" />}
                       prepend={
                         <Button
                           variant="ghost"
@@ -114,7 +119,11 @@ const FormLogin: React.FC<FormLoginProps> = ({ className }) => {
               )}
             />
             <div className="flex flex-col justify-center items-stretch gap-2">
-              <Button type="submit" disabled={!form.formState.isValid}>
+              <Button
+                type="submit"
+                disabled={!form.formState.isValid}
+                loading={isLoading}
+              >
                 Login
               </Button>
               <Button type="button" variant="outline">

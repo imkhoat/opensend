@@ -1,5 +1,5 @@
 import { expect, test } from "vitest";
-import { render, screen } from "@testing-library/react";
+import { render, screen } from "@/tests/test-utils"; // Import từ test-utils
 import FormLogin from "@/modules/auth/components/form-login.tsx";
 
 test("[form-login] check if component render correct", () => {

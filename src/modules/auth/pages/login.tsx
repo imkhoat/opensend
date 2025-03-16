@@ -5,7 +5,7 @@ export default function LoginPage(){
   return (
     <div className="w-full flex flex-col items-center justify-center gap-8 h-screen px-2">
       <BrandLogo />
-      <FormLogin className="w-full sm:w-5/6 md:w-2/3 lg:w-1/3 xl:w-1/4"/>
+      <FormLogin className="w-full sm:w-5/6 md:w-2/3 lg:w-1/3 xl:w-1/4 max-w-[360px]"/>
     </div>
   )
 }
