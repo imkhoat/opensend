@@ -24,12 +24,18 @@ npm run dev
 
 ## Task
  **Task 01: Build a Login Form with React and TypeScript**
-- [ ] Create new react app with vite + typescript
-- [ ] Setup nessesary and requirement library (ui lib, RTK Query, font, brand color...)
-- [ ] Implement login UI
+- [x] Create new react app with vite + typescript
+- [x] Setup nessesary and requirement library (ui lib, RTK Query, font, brand color...)
+- [x] Implement login UI
+- [x] Add unittest
 
 **Task 02: Conditional Routing**
-- [ ] Implement three page 
+- [ ] Config repository and service for login form
+- [ ] Connect with api to validate login
+- [ ] Add react router to handle routing
+- [ ] Create simple layout component
+- [ ] Implement three sample page
+- [ ] Implement middleware and guard for authentication and authorization
 
 **Task 03: Build a dynamic dashboard with editable, draggable, and resizable metric widgets.**
 - [ ] Setup draggable lib
