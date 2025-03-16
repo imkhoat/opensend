@@ -16,7 +16,8 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { toast } from "sonner"
+import { toast } from "sonner";
+import { Eye, EyeClosed, Mail } from "lucide-react";
 
 interface FormLoginProps {
   className?: string;
@@ -48,11 +49,17 @@ const FormLogin: React.FC<FormLoginProps> = ({ className }) => {
         label: "Undo",
         onClick: () => console.log("Undo"),
       },
-    })
+    });
   }
 
+  // Password visibility toggle
+  const [passwordVisible, setPasswordVisible] = React.useState(false);
+
   return (
-    <Card className={`${className} shadow-none border-none`} data-testid="auth-components-form-login">
+    <Card
+      className={`${className} shadow-none border-none`}
+      data-testid="auth-components-form-login"
+    >
       <CardContent>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
@@ -66,6 +73,7 @@ const FormLogin: React.FC<FormLoginProps> = ({ className }) => {
                     <Input
                       placeholder="your@email.com"
                       type="email"
+                      append={<Mail className="w-4 h-4" />}
                       {...field}
                     />
                   </FormControl>
@@ -80,14 +88,35 @@ const FormLogin: React.FC<FormLoginProps> = ({ className }) => {
                 <FormItem>
                   <FormLabel>Password</FormLabel>
                   <FormControl>
-                    <Input placeholder="********" type="password" {...field} />
+                    <Input
+                      placeholder="********"
+                      type={!passwordVisible ? "password" : "text"}
+                      {...field}
+                      prepend={
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          className="w-6 h-6"
+                          type="button"
+                          onClick={() => setPasswordVisible(!passwordVisible)}
+                        >
+                          {passwordVisible ? (
+                            <Eye className="w-4 h-4" />
+                          ) : (
+                            <EyeClosed className="w-4 h-4" />
+                          )}
+                        </Button>
+                      }
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
             <div className="flex flex-col justify-center items-stretch gap-2">
-              <Button type="submit">Login</Button>
+              <Button type="submit" disabled={!form.formState.isValid}>
+                Login
+              </Button>
               <Button type="button" variant="outline">
                 Forgot Your Password?
               </Button>
