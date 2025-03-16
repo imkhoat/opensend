@@ -30,8 +30,8 @@ npm run dev
 - [x] Add unittest
 
 **Task 02: Conditional Routing**
-- [ ] Config repository and service for login form
-- [ ] Connect with api to validate login
+- [x] Config repository and service for login form
+- [x] Connect with api to validate login
 - [ ] Add react router to handle routing
 - [ ] Create simple layout component
 - [ ] Implement three sample page
