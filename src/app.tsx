@@ -1,18 +1,11 @@
-import { useState } from "react";
-import { Button } from "@/components/ui/button";
-
+import LoginPage from "@/modules/auth/pages/login";
 function App() {
-  const [count, setCount] = useState(0);
-
   return (
-    <>
-      <div className="flex flex-col justify-center items-center h-screen">
-        {count}
-        <Button onClick={() => setCount((count) => count + 1)}>
-          Increment
-        </Button>
+    <main className="bg-secondary">
+      <div className="font-display flex flex-col justify-center items-center h-screen mx-auto gap-2">
+        <LoginPage />
       </div>
-    </>
+    </main>
   );
 }
 
