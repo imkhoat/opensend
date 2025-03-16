@@ -52,7 +52,7 @@ const FormLogin: React.FC<FormLoginProps> = ({ className }) => {
   }
 
   return (
-    <Card className={`${className} shadow-none border-none`}>
+    <Card className={`${className} shadow-none border-none`} data-testid="auth-components-form-login">
       <CardContent>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
