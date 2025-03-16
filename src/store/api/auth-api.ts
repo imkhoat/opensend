@@ -31,6 +31,7 @@ export const authApi = createApi({
           const { data } = await queryFulfilled;
           localStorage.setItem("accessToken", data.tokens.accessToken);
           localStorage.setItem("clientToken", data.tokens.clientToken);
+          localStorage.setItem("authData", JSON.stringify(data));
         } catch (error) {
           console.error("Login failed", error);
         }
@@ -44,6 +45,7 @@ export const authApi = createApi({
       async onQueryStarted() {
         localStorage.removeItem("accessToken");
         localStorage.removeItem("clientToken");
+        localStorage.removeItem("authData");
       },
     }),
   }),

@@ -1,3 +1,8 @@
+export interface Credentials {
+  email: string;
+  password: string;
+}
+
 export interface User {
   id: number;
   email: string;
@@ -23,8 +28,11 @@ export interface Store {
   id: number;
   name: string;
   url: string;
-  created_at: string;
   status: string;
+  onboarding_procedure?: {
+    onboarding_status: string;
+  };
+  created_at: string;
   public_id: string;
   private_id: string;
   website_technology: string;

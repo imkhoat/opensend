@@ -24,12 +24,17 @@ import {
 import { toast } from "sonner";
 import { Eye, EyeClosed, Lock, Mail } from "lucide-react";
 import { useLoginMutation } from "@/store/api/auth-api";
+import { useNavigate } from "react-router-dom";
+import { useAuthRedirect } from "@/hooks/use-auth-redirect";
 
 interface FormLoginProps {
   className?: string;
 }
 
 const FormLogin: React.FC<FormLoginProps> = ({ className }) => {
+  const navigate = useNavigate();
+  useAuthRedirect();
+
   const formSchema = z.object({
     email: z.string().email(),
     password: z.string().min(8),
@@ -45,13 +50,13 @@ const FormLogin: React.FC<FormLoginProps> = ({ className }) => {
 
   const [login, { isLoading, error }] = useLoginMutation();
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    const { email, password } = values;
-    const response = await login({ email, password });
+    const response = await login(values).unwrap();
     if (response.error || error) {
-      toast("Invalid email or password");
+      toast.error("Invalid email or password");
       return;
     }
-    toast("Login success");
+    toast.success("Login success");
+    navigate(0);
   }
 
   // Password visibility toggle
