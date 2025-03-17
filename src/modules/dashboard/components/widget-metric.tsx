@@ -9,15 +9,27 @@ import {
 } from "@/components/ui/card";
 import { METRIC_TYPE_CONFIG } from "@/modules/dashboard/utils/definitions";
 import { Edit2, Trash } from "lucide-react";
-import { removeMetric, editMetric, toogleModal } from "@/modules/dashboard/store/dashboard-slice";
+import {
+  removeMetric,
+  setActiveMetric,
+  toggleModal,
+} from "@/modules/dashboard/store/dashboard-slice";
 import { useDispatch } from "react-redux";
 
 export function WidgetMetric({ metric }: { metric: Metric }) {
   const dispatch = useDispatch();
+  const userRole = "ADMIN";
+
+  function handleEdit() {
+    if (userRole === "ADMIN") {
+      dispatch(setActiveMetric(metric));
+      dispatch(toggleModal());
+    }
+  }
 
   const metricConfig = METRIC_TYPE_CONFIG[metric.type];
   return (
-    <Card className="py-4 h-fit">
+    <Card className="py-4 w-full h-full">
       <CardContent>
         <div className="flex flex-row justify-start items-center gap-2">
           {metricConfig?.icon && (
@@ -35,15 +47,20 @@ export function WidgetMetric({ metric }: { metric: Metric }) {
         </div>
       </CardContent>
       <CardFooter className="flex flex-row justify-end items-center gap-1">
-        <Button variant="ghost" size="icon" onClick={() => {
-          dispatch(editMetric(metric))
-          toogleModal();
-        }}>
-          <Edit2 size={12} />
-        </Button>
-        <Button variant="ghost" size="icon" onClick={() => dispatch(removeMetric(metric.id))}>
-          <Trash size={12} />
-        </Button>
+        {userRole === "ADMIN" && (
+          <>
+            <Button variant="ghost" size="icon" onClick={() => handleEdit()}>
+              <Edit2 size={12} />
+            </Button>
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => dispatch(removeMetric(metric.id))}
+            >
+              <Trash size={12} />
+            </Button>
+          </>
+        )}
       </CardFooter>
     </Card>
   );

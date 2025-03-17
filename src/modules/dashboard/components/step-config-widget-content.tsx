@@ -17,7 +17,7 @@ import { useDispatch } from "react-redux";
 import {
   addNewWidget,
   resetActiveMetric,
-  toogleModal,
+  toggleModal,
   updateActiveMetric,
 } from "@/modules/dashboard/store/dashboard-slice";
 
@@ -40,7 +40,7 @@ export default function StepConfigWidgetType() {
     const { title, description } = values;
     dispatch(updateActiveMetric({ title, description }));
     dispatch(addNewWidget());
-    dispatch(toogleModal());
+    dispatch(toggleModal());
     dispatch(resetActiveMetric());
   }
   return (
