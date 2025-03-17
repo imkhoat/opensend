@@ -43,11 +43,20 @@ const dashboardSlice = createSlice({
       state.metrics.push(newWidget);
       state.activeMetric = null;
     },
+    removeMetric(state, action: PayloadAction<number>) {
+      state.metrics = state.metrics.filter((metric) => metric.id !== action.payload);
+    },
+    editMetric(state, action: PayloadAction<Metric>) {
+      state.activeMetric = action.payload;
+    },
     updateActiveMetric: (state, action: PayloadAction<Partial<Metric>>) => {
       state.activeMetric = { ...state.activeMetric, ...action.payload };
     },
+    resetActiveMetric: (state) => {
+      state.activeMetric = {};
+    }
   },
 });
 
-export const { toogleModal, setModalMode, addNewWidget, updateActiveMetric } = dashboardSlice.actions;
+export const { toogleModal, setModalMode, addNewWidget, updateActiveMetric, resetActiveMetric, removeMetric, editMetric } = dashboardSlice.actions;
 export default dashboardSlice.reducer;

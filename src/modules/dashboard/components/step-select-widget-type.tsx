@@ -43,6 +43,7 @@ export default function StepSelectWidgetType({
               className={`w-fit h-fit min-w-12 shadow-none cursor-pointer border-2 ${
                 item.key === activeMetric?.type ? "border-primary" : ""
               }`}
+              key={item.key}
               onClick={() =>
                 dispatch(
                   updateActiveMetric({
