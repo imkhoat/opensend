@@ -9,7 +9,7 @@ export default function TheHeader({
 }) {
   const authData = useAuth();
   return (
-    <header className="flex flex-row items-center justify-between px-6 py-4 border-b shadow-sm bg-background">
+    <header className="flex flex-row items-center justify-between px-6 py-4 border-b bg-background">
       <BrandLogo />
       <nav className="flex-grow"></nav>
       <div>{children}</div>

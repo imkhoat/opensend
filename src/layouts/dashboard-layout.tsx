@@ -1,3 +1,4 @@
+import TheHeader from "@/components/extends/the-header";
 import { ReactNode } from "react";
 
 interface DashboardLayoutProps {
@@ -6,12 +7,9 @@ interface DashboardLayoutProps {
 
 const DashboardLayout = ({ children }: DashboardLayoutProps) => {
   return (
-    <div className="flex min-h-screen">
-      <aside className="w-60 bg-gray-800 text-white p-4">Dashboard Sidebar</aside>
-      <div className="flex-1">
-        <header className="bg-blue-600 text-white p-4">Dashboard Header</header>
-        <main className="p-6 bg-gray-100">{children}</main>
-      </div>
+    <div className="flex flex-col justify-start items-stretch min-h-screen bg-slate-50">
+      <TheHeader />
+      <main className="flex-1 p-6">{children}</main>
     </div>
   );
 };

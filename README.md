@@ -13,7 +13,13 @@ To set up the project, follow these steps:
 npm install
 ```
 
-2. Start the development server:
+2. Create .env file with following content
+
+```
+VITE_API_BASE_URL=https://stgapp-bwgkn3md.opensend.com
+```
+
+3. Start the development server:
 
  ```sh
 npm run dev

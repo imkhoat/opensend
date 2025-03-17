@@ -1,3 +1,4 @@
+import TheHeader from "@/components/extends/the-header";
 import { ReactNode } from "react";
 
 interface AdminLayoutProps {
@@ -6,9 +7,9 @@ interface AdminLayoutProps {
 
 const AdminLayout = ({ children }: AdminLayoutProps) => {
   return (
-    <div className="flex min-h-screen">
-      <aside className="w-64 bg-gray-800 text-white p-4">Admin Sidebar</aside>
-      <main className="flex-1 p-6 bg-gray-100">{children}</main>
+    <div className="flex flex-col justify-start items-stretch min-h-screen bg-slate-50">
+      <TheHeader />
+      <main className="flex-1 p-6">{children}</main>
     </div>
   );
 };

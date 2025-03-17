@@ -40,8 +40,9 @@ export const useAuthRedirect = () => {
         },
       })
         .then((res) => res.json())
-        .then((store) => {
-          const onboardingStatus = store.onboarding_procedure?.onboarding_status || "PENDING";
+        .then((res) => {
+          console.log('store.onboarding_procedure?.onboarding_status', res.store?.onboarding_procedure?.onboarding_status);
+          const onboardingStatus = res.store?.onboarding_procedure?.onboarding_status || "PENDING";
 
           // Cập nhật authData trong localStorage
           const updatedAuthData = {
@@ -63,7 +64,7 @@ export const useAuthRedirect = () => {
         });
     }
     else {
-      setIsRedirecting(false); // Nếu không có điều kiện nào khớp, hiển thị login
+      setIsRedirecting(false);
     }
 
   }, [authData, navigate, hasFetched]);
