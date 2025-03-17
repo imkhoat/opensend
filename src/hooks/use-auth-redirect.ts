@@ -8,9 +8,14 @@ export const useAuthRedirect = () => {
   const authData = useAuth();
   const navigate = useNavigate();
   const [hasFetched, setHasFetched] = useState(false);
+  const [isRedirecting, setIsRedirecting] = useState(false); // Mặc định chặn hiển thị FormLogin
 
   useEffect(() => {
-    if (!authData || hasFetched) return;
+    if (!authData || hasFetched) {
+      return;
+    }
+
+    setIsRedirecting(true);
 
     const redirectTo = (path: string) => {
       setHasFetched(true); // Đánh dấu đã xử lý redirect
@@ -35,8 +40,18 @@ export const useAuthRedirect = () => {
         },
       })
         .then((res) => res.json())
-        .then((store) => {
-          if (store.onboarding_procedure?.onboarding_status !== "DONE") {
+        .then((res) => {
+          console.log('store.onboarding_procedure?.onboarding_status', res.store?.onboarding_procedure?.onboarding_status);
+          const onboardingStatus = res.store?.onboarding_procedure?.onboarding_status || "PENDING";
+
+          // Cập nhật authData trong localStorage
+          const updatedAuthData = {
+            ...authData,
+            onboarding_status: onboardingStatus,
+          };
+          localStorage.setItem("authData", JSON.stringify(updatedAuthData));
+
+          if (onboardingStatus !== "DONE") {
             redirectTo("/onboarding");
           } else {
             redirectTo("/dashboard");
@@ -45,7 +60,14 @@ export const useAuthRedirect = () => {
         .catch((error) => {
           console.error("Error fetching store info:", error);
           setHasFetched(false);
+          setIsRedirecting(false);
         });
     }
+    else {
+      setIsRedirecting(false);
+    }
+
   }, [authData, navigate, hasFetched]);
+
+  return { isRedirecting };
 };

@@ -13,7 +13,13 @@ To set up the project, follow these steps:
 npm install
 ```
 
-2. Start the development server:
+2. Create .env file with following content
+
+```
+VITE_API_BASE_URL=https://stgapp-bwgkn3md.opensend.com
+```
+
+3. Start the development server:
 
  ```sh
 npm run dev
@@ -32,7 +38,7 @@ npm run dev
 **Task 02: Conditional Routing**
 - [x] Config repository and service for login form
 - [x] Connect with api to validate login
-- [ ] Add react router to handle routing
+- [x] Add react router to handle routing
 - [ ] Create simple layout component
 - [ ] Implement three sample page
 - [ ] Implement middleware and guard for authentication and authorization

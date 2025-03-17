@@ -1,28 +1,74 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import ProtectedRoute from "@/components//extends/protected-route";
-import AdminPage from "@/modules/admin/pages/admin";
-import Dashboard from "@/modules/dashboard/pages/dashboard";
-import Onboarding from "@/modules/onboarding/pages/onboarding";
+import DefaultLayout from "@/layouts/default-layout";
+import AdminLayout from "@/layouts/admin-layout";
+import ClientLayout from "@/layouts/client-layout";
+import DashboardLayout from "@/layouts/dashboard-layout";
+import LayoutWrapper from "@/layouts/layout-wrapper";
 import Login from "@/modules/auth/pages/login";
+import Dashboard from "@/modules/dashboard/pages/dashboard";
+import Admin from "@/modules/admin/pages/admin";
+import Onboarding from "@/modules/onboarding/pages/onboarding";
+import Home from "@/modules/home/pages/home";
+import ProtectedRoute from "@/components/extends/protected-route";
 
-function App() {
+const routes = [
+  {
+    path: "/",
+    element: <Home />,
+    layout: DefaultLayout,
+    isProtected: false,
+  },
+  {
+    path: "/login",
+    element: <Login />,
+    layout: DefaultLayout,
+    isProtected: false,
+  },
+  {
+    path: "/admin",
+    element: <Admin />,
+    layout: AdminLayout,
+    isProtected: true,
+  },
+  {
+    path: "/dashboard",
+    element: <Dashboard />,
+    layout: DashboardLayout,
+    isProtected: true,
+  },
+  {
+    path: "/onboarding",
+    element: <Onboarding />,
+    layout: ClientLayout,
+    isProtected: true,
+  },
+];
+
+const AppLayout = () => {
   return (
     <Router>
       <Routes>
-        <Route path="/login" element={<Login />} />
-
-        {/* Các route yêu cầu đăng nhập */}
-        <Route element={<ProtectedRoute />}>
-          <Route path="/admin" element={<AdminPage />} />
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/onboarding" element={<Onboarding />} />
-        </Route>
-
-        {/* Route mặc định nếu không khớp */}
-        <Route path="*" element={<Login />} />
+        {routes.map(({ path, element, layout: Layout, isProtected }) =>
+          isProtected ? (
+            <Route key={path} element={<ProtectedRoute />}>
+              <Route
+                path={path}
+                element={
+                  <LayoutWrapper layout={Layout}>{element}</LayoutWrapper>
+                }
+              />
+            </Route>
+          ) : (
+            <Route
+              key={path}
+              path={path}
+              element={<LayoutWrapper layout={Layout}>{element}</LayoutWrapper>}
+            />
+          )
+        )}
       </Routes>
     </Router>
   );
-}
+};
 
-export default App;
+export default AppLayout;
