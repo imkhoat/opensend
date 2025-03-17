@@ -22,7 +22,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { toast } from "sonner";
-import { Eye, EyeClosed, Lock, Mail } from "lucide-react";
+import { Eye, EyeClosed, Loader2, Lock, Mail } from "lucide-react";
 import { useLoginMutation } from "@/store/api/auth-api";
 import { useNavigate } from "react-router-dom";
 import { useAuthRedirect } from "@/hooks/use-auth-redirect";
@@ -33,7 +33,16 @@ interface FormLoginProps {
 
 const FormLogin: React.FC<FormLoginProps> = ({ className }) => {
   const navigate = useNavigate();
-  useAuthRedirect();
+  const { isRedirecting } = useAuthRedirect();
+
+  if (isRedirecting) {
+    return (
+      <div className="flex flex-col items-center justify-center h-full">
+        <Loader2 className="animate-spin" />
+        Please wait, login checking...
+      </div>
+    ); // Có thể thay bằng spinner
+  }
 
   const formSchema = z.object({
     email: z.string().email(),

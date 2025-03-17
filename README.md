@@ -32,7 +32,7 @@ npm run dev
 **Task 02: Conditional Routing**
 - [x] Config repository and service for login form
 - [x] Connect with api to validate login
-- [ ] Add react router to handle routing
+- [x] Add react router to handle routing
 - [ ] Create simple layout component
 - [ ] Implement three sample page
 - [ ] Implement middleware and guard for authentication and authorization
