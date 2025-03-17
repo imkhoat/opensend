@@ -20,7 +20,7 @@ const Logout = () => {
   };
 
   return (
-    <Button variant="destructive" onClick={handleLogout} className="flex items-center gap-2">
+    <Button variant="outline" onClick={handleLogout} className="flex items-center gap-2">
       <LogOut className="w-5 h-5" />
       Logout
     </Button>
