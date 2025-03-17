@@ -39,9 +39,9 @@ npm run dev
 - [x] Config repository and service for login form
 - [x] Connect with api to validate login
 - [x] Add react router to handle routing
-- [ ] Create simple layout component
-- [ ] Implement three sample page
-- [ ] Implement middleware and guard for authentication and authorization
+- [x] Create simple layout component
+- [x] Implement three sample page
+- [x] Implement middleware and guard for authentication and authorization
 
 **Task 03: Build a dynamic dashboard with editable, draggable, and resizable metric widgets.**
 - [ ] Setup draggable lib

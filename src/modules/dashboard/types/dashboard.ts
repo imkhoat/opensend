@@ -9,10 +9,12 @@ export interface Metric {
   y: number;
   w: number;
   h: number;
-  meta: {
-    key: string,
-    value: string,
-    description: string
-    icon: string
-  };
+  meta: MetaData;
+}
+
+export interface MetaData {
+  key: string;
+  value: string;
+  description: string;
+  icon: Element;
 }
