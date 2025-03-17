@@ -13,7 +13,7 @@ To set up the project, follow these steps:
 npm install
 ```
 
-2. Create .env file with following content
+2. Create .env file with following content on root folder
 
 ```
 VITE_API_BASE_URL=https://stgapp-bwgkn3md.opensend.com

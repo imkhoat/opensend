@@ -1,9 +1,9 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import DefaultLayout from "@/layouts/default-layout";
-import AdminLayout from "@/layouts/admin-layout";
-import ClientLayout from "@/layouts/client-layout";
-import DashboardLayout from "@/layouts/dashboard-layout";
 import LayoutWrapper from "@/layouts/layout-wrapper";
+import AdminLayout from "@/modules/admin/layouts/admin-layout";
+import OnboardingLayout from "@/modules/onboarding/layouts/onboarding-layout";
+import DashboardLayout from "@/modules/dashboard/layouts/dashboard-layout";
 import Login from "@/modules/auth/pages/login";
 import Dashboard from "@/modules/dashboard/pages/dashboard";
 import Admin from "@/modules/admin/pages/admin";
@@ -39,7 +39,7 @@ const routes = [
   {
     path: "/onboarding",
     element: <Onboarding />,
-    layout: ClientLayout,
+    layout: OnboardingLayout,
     isProtected: true,
   },
 ];
