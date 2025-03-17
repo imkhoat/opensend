@@ -20,7 +20,7 @@ const dashboardSlice = createSlice({
   name: "dashboard",
   initialState,
   reducers: {
-    toogleModal: (state) => {
+    toggleModal: (state) => {
       state.modalState = !state.modalState;
     },
     setModalMode: (state, action: PayloadAction<"ADD_NEW_METRIC" | "EDIT_METRIC">) => {
@@ -46,8 +46,21 @@ const dashboardSlice = createSlice({
     removeMetric(state, action: PayloadAction<number>) {
       state.metrics = state.metrics.filter((metric) => metric.id !== action.payload);
     },
-    editMetric(state, action: PayloadAction<Metric>) {
+    setActiveMetric(state, action: PayloadAction<Metric>) {
       state.activeMetric = action.payload;
+    },
+    updateMetric: (state, action: PayloadAction<{ id: number; title: string; description: string }>) => {
+      const metric = state.metrics.find((m) => m.id === action.payload.id);
+      if (metric) {
+        metric.title = action.payload.title;
+        metric.description = action.payload.description;
+      }
+    },
+    updateMetricPosition: (state, action: PayloadAction<{ id: number; x: number; y: number; w: number; h: number }>) => {
+      const metric = state.metrics.find((m) => m.id === action.payload.id);
+      if (metric) {
+        Object.assign(metric, action.payload);
+      }
     },
     updateActiveMetric: (state, action: PayloadAction<Partial<Metric>>) => {
       state.activeMetric = { ...state.activeMetric, ...action.payload };
@@ -58,5 +71,5 @@ const dashboardSlice = createSlice({
   },
 });
 
-export const { toogleModal, setModalMode, addNewWidget, updateActiveMetric, resetActiveMetric, removeMetric, editMetric } = dashboardSlice.actions;
+export const { toggleModal, setModalMode, addNewWidget, updateActiveMetric, resetActiveMetric, removeMetric, setActiveMetric, updateMetric, updateMetricPosition } = dashboardSlice.actions;
 export default dashboardSlice.reducer;
