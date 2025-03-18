@@ -14,7 +14,7 @@ export interface Metric {
 
 export interface MetaData {
   key: string;
-  value: string;
+  value: string | number;
   description: string;
   icon: Element;
 }

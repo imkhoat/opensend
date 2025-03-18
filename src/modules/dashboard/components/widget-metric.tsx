@@ -31,12 +31,9 @@ export function WidgetMetric({ metric }: { metric: Metric }) {
   return (
     <Card className="py-4 w-full h-full">
       <CardContent>
-        <div className="flex flex-row justify-start items-center gap-2">
+        <div className="flex flex-row justify-start items-start gap-2">
           {metricConfig?.icon && (
-            <metricConfig.icon
-              size={24}
-              className="text-primary fill-lime-400"
-            />
+            <metricConfig.icon className="text-primary fill-lime-400 min-w-6 min-h-6" />
           )}
           <div>
             <CardTitle className="flex flex-row justify-start items-center gap-2">
