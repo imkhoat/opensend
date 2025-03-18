@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { Metric } from "@/modules/dashboard/types/dashboard";
-import { METRIC_TYPE_CONFIG } from "../utils/definitions";
+import { METRIC_TYPE_CONFIG } from "@/modules/dashboard/utils/definitions";
 
 const loadMetricsFromLocalStorage = (): Partial<Metric>[] => {
   if (typeof window !== "undefined") {

@@ -4,6 +4,7 @@ import GridLayout, { Layout } from "react-grid-layout";
 import "react-grid-layout/css/styles.css";
 import "react-resizable/css/styles.css";
 import { updateMetricPosition } from "@/modules/dashboard/store/dashboard-slice";
+import { Metric } from "@/modules/dashboard/types/dashboard";
 
 export default function WidgetMetricBoard() {
   const dispatch = useDispatch();
@@ -40,18 +41,18 @@ export default function WidgetMetricBoard() {
     );
   };
 
-  const layout: Layout[] = metrics.map((metric, index) => ({
+  const layout: Layout[] = metrics.map((metric: Metric, index: number) => ({
     i: metric.id.toString(),
     x: metric.x || index * 2,
     y: metric.y || 0,
-    w: metric.w || 2, // Kích thước mặc định 2x2
+    w: metric.w || 2,
     h: metric.h || 2,
     minW: 2,
     minH: 2,
   }));
   return (
     <GridLayout
-        className="layout w-screen !h-screen"
+        className="layout w-full !h-screen"
         layout={layout}
         cols={12}
         rowHeight={100}
@@ -62,7 +63,7 @@ export default function WidgetMetricBoard() {
         onResizeStop={handleResizeStop}
         draggableHandle=".drag-handle"
       >
-      {metrics.map((metric) => (
+      {metrics.map((metric: Metric) => (
         <div key={metric.id} className="drag-handle w-fit h-fit">
           <WidgetMetric metric={metric} />
         </div>
