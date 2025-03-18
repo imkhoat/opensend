@@ -3,32 +3,13 @@ import { WidgetMetric } from "@/modules/dashboard/components/widget-metric";
 import GridLayout, { Layout } from "react-grid-layout";
 import "react-grid-layout/css/styles.css";
 import "react-resizable/css/styles.css";
-import { useEffect } from "react";
 import { updateMetricPosition } from "@/modules/dashboard/store/dashboard-slice";
 
-export default function WidgetMetricList() {
+export default function WidgetMetricBoard() {
   const dispatch = useDispatch();
   const metrics = useSelector((state) => state.dashboard.metrics);
-  useEffect(() => {
-    const savedLayout = localStorage.getItem("dashboard-layout");
-    if (savedLayout) {
-      const parsedLayout = JSON.parse(savedLayout);
-      parsedLayout.forEach((item: any) => {
-        dispatch(
-          updateMetricPosition({
-            id: item.i,
-            x: item.x,
-            y: item.y,
-            w: item.w,
-            h: item.h,
-          })
-        );
-      });
-    }
-  }, [dispatch]);
 
   const handleLayoutChange = (layout: GridLayout.Layout[]) => {
-    localStorage.setItem("dashboard-layout", JSON.stringify(layout));
     layout.forEach((item) => {
       dispatch(
         updateMetricPosition({
@@ -42,12 +23,29 @@ export default function WidgetMetricList() {
     });
   };
 
+  const handleResizeStop = (
+    layout: Layout[],
+    oldItem: Layout,
+    newItem: Layout
+  ) => {
+    console.log("Resize stop", oldItem, newItem);
+    dispatch(
+      updateMetricPosition({
+        id: Number(newItem.i),
+        x: newItem.x,
+        y: newItem.y,
+        w: newItem.w,
+        h: newItem.h,
+      })
+    );
+  };
+
   const layout: Layout[] = metrics.map((metric, index) => ({
     i: metric.id.toString(),
-    x: index * 2,
-    y: 0,
-    w: metric.width || 2, // Kích thước mặc định 2x2
-    h: metric.height || 2,
+    x: metric.x || index * 2,
+    y: metric.y || 0,
+    w: metric.w || 2, // Kích thước mặc định 2x2
+    h: metric.h || 2,
     minW: 2,
     minH: 2,
   }));
@@ -59,7 +57,9 @@ export default function WidgetMetricList() {
         rowHeight={100}
         width={window.innerWidth}
         compactType={null}
+        isResizable={true}
         onLayoutChange={handleLayoutChange}
+        onResizeStop={handleResizeStop}
         draggableHandle=".drag-handle"
       >
       {metrics.map((metric) => (

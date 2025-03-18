@@ -1,5 +1,20 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { Metric } from "@/modules/dashboard/types/dashboard";
+import { METRIC_TYPE_CONFIG } from "../utils/definitions";
+
+const loadMetricsFromLocalStorage = (): Partial<Metric>[] => {
+  if (typeof window !== "undefined") {
+    const savedMetrics = localStorage.getItem("dashboard_metrics");
+    return savedMetrics ? JSON.parse(savedMetrics) : [];
+  }
+  return [];
+};
+
+const saveMetricsToLocalStorage = (metrics: Partial<Metric>[]) => {
+  if (typeof window !== "undefined") {
+    localStorage.setItem("dashboard_metrics", JSON.stringify(metrics));
+  }
+};
 
 interface DashboardState {
   modalState: boolean;
@@ -11,10 +26,9 @@ interface DashboardState {
 const initialState: DashboardState = {
   modalState: false,
   modalMode: "ADD_NEW_METRIC",
-  metrics: [],
+  metrics: loadMetricsFromLocalStorage(),
   activeMetric: null,
 };
-
 
 const dashboardSlice = createSlice({
   name: "dashboard",
@@ -38,13 +52,19 @@ const dashboardSlice = createSlice({
         y: state.activeMetric.y ?? 0,
         w: state.activeMetric.w ?? 4,
         h: state.activeMetric.h ?? 2,
+        meta: {
+          ...METRIC_TYPE_CONFIG[state.activeMetric.type],
+          value: state.activeMetric.meta?.value || 0,
+        },
       };
 
       state.metrics.push(newWidget);
+      saveMetricsToLocalStorage(state.metrics);
       state.activeMetric = null;
     },
     removeMetric(state, action: PayloadAction<number>) {
       state.metrics = state.metrics.filter((metric) => metric.id !== action.payload);
+      saveMetricsToLocalStorage(state.metrics);
     },
     setActiveMetric(state, action: PayloadAction<Metric>) {
       state.activeMetric = action.payload;
@@ -54,12 +74,14 @@ const dashboardSlice = createSlice({
       if (metric) {
         metric.title = action.payload.title;
         metric.description = action.payload.description;
+        saveMetricsToLocalStorage(state.metrics);
       }
     },
     updateMetricPosition: (state, action: PayloadAction<{ id: number; x: number; y: number; w: number; h: number }>) => {
       const metric = state.metrics.find((m) => m.id === action.payload.id);
       if (metric) {
         Object.assign(metric, action.payload);
+        saveMetricsToLocalStorage(state.metrics);
       }
     },
     updateActiveMetric: (state, action: PayloadAction<Partial<Metric>>) => {
